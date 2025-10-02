@@ -1,10 +1,26 @@
-# Node.js template
+## FeelFree 🧠
+Nosso site é uma plataforma que apoia pais de crianças com necessidades atípicas, facilitando o acesso a profissionais especializados a preços acessíveis, oferecendo informações sobre direitos, medicamentos gratuitos e inclusão.
 
-This is a Node.js project.
+## Tecnologias utilizadas 🖥️
+ - JavaScript
+ - Css
+ - Html
+## Funcionalidades 🛠️
+ - Cadastro e acesso a profissionais especializados;
+ - Informações sobre direitos e inclusão;
+ - Informações sobre medicamentos gratuitos;
+ - Comunidade de apoio entre famílias; 
+ - Plataforma acessível e amigável.
+ ## Colaboradores 👥
+ 
+  - Diosamar Aurora;
+ - Heloisa Figueredo; 
+ - Kamilly Vitória;
+ -  Sofia Luize.
+ 
 
-Add your [configuration](https://codesandbox.io/docs/projects/learn/setting-up/tasks) to optimize it for [CodeSandbox](https://codesandbox.io/p/dashboard).
 
-## Resources
 
-- [CodeSandbox — Docs](https://codesandbox.io/docs/learn)
-- [CodeSandbox — Discord](https://discord.gg/Ggarp3pX5H)
+ 
+
+ 
