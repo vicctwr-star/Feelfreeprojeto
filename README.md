@@ -16,11 +16,4 @@ Nosso site é uma plataforma que apoia pais de crianças com necessidades atípi
   - Diosamar Aurora;
  - Heloisa Figueredo; 
  - Kamilly Vitória;
- -  Sofia Luize.
- 
-
-
-
- 
-
- 
+ - Sofia Luize.
