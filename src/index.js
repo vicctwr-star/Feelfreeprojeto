@@ -1,11 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const { rotaUsuarios } = require("./controllers/usuario");
+const { rotaLogin } = require("./controllers/login");
 const server = express();
 
 server.use(cors());
 server.use(express.json());
 server.use(rotaUsuarios);
+server.use(rotaLogin);
 
 const { rotaPosts } = require("./controllers/post");
 server.use(rotaPosts);

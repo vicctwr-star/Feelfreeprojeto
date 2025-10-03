@@ -9,7 +9,10 @@ async function login(nome, senha) {
   console.log({ nome, senha });
   const resposta = await fetch("https://kxtq5f-3000.csb.app/login", {
     method: "POST",
-    body: JSON.stringify({ nome, senha }),
+    body: JSON.stringify({
+      nome,
+      senha,
+    }),
     headers: {
       "Content-type": "application/json",
     },
