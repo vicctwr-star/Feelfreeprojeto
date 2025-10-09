@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   async function login(nome, senha) {
     console.log({ nome, senha });
-    const resposta = await fetch("https://42grk3-3000.csb.app/login", {
+    const resposta = await fetch("https://r5nvtc-3000.csb.app/login", {
       method: "POST",
       body: JSON.stringify({
       nome,
@@ -21,6 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
   
   const json = await resposta.json();
   sessionStorage.setItem("token", json.token)
-  window.location.href = "telainicial.html"
+  window.location.assign("file:///D:/Thiago%203/blbsbslbsl/feelfree/pages/telainicial.html")  
 }
 })
