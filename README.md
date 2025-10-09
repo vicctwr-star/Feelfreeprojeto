@@ -1,11 +1,5 @@
-=======
-
 ## FeelFree 🧠
 
-AAAAAAAAAAAAAA
-AAAAAAAAAAAAAA
-AAAAAAAAAAAAAA
-AAAAAAAAAAAAAA
 Nosso site é uma plataforma que apoia pais de crianças com necessidades atípicas, facilitando o acesso a profissionais especializados a preços acessíveis, oferecendo informações sobre direitos, medicamentos gratuitos e inclusão.
 
 ## Tecnologias utilizadas 🖥️
@@ -25,6 +19,5 @@ Nosso site é uma plataforma que apoia pais de crianças com necessidades atípi
 ## Colaboradores 👥
 
 - Diosamar Aurora;
-- Heloisa Figueredo;
 - Kamilly Vitória;
 - Sofia Luize.
