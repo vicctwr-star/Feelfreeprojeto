@@ -7,6 +7,8 @@ Nosso site é uma plataforma que apoia pais de crianças com necessidades atípi
 - JavaScript
 - Css
 - Html
+- Prisma
+- sqlite
 
 ## Funcionalidades 🛠️
 

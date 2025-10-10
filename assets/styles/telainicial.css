@@ -1,0 +1,105 @@
+body {
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: 80px 1fr;
+  grid-template-areas:
+    "header header"
+    "sidebar main";
+  height: 100vh;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+header {
+  gap: 35px;
+  grid-area: header;
+  background-color: #3978ee;
+  color: rgb(22, 13, 13);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 20px;
+}
+
+header h1 {
+  font-size: 1.3rem;
+}
+
+nav.sidebar {
+  grid-area: sidebar;
+  background-color: #3978ee;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.container {
+  font-size: 30px;
+  height: 60px;
+  width: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background-color: #b5b5b5;
+  margin: 8px 0;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.container:hover {
+  background-color: #888;
+  transform: scale(1.08);
+}
+
+main {
+  grid-area: main;
+  padding: 20px;
+  background-color: rgb(248, 241, 232);
+}
+
+.imagem {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+}
+
+.imagem img {
+  max-width: 45px;
+  height: auto;
+}
+
+.menu-toggle {
+  font-size: 40px;
+  color: rgba(0, 0, 0, 0.7);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.textos {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0px;
+}
+
+.textos h1 {
+  margin: 0;
+  line-height: 1.5;
+  font-family: sans-serif;
+}
+
+.textos p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.informacao {
+  line-height: 1.4;
+  margin-left: 20px;
+  margin-right: 50px;
+  font-size: 20px;
+}

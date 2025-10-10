@@ -1,0 +1,72 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(248, 241, 232);
+  }
+
+  header {
+    background-color: #4a90e2;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    font-size: 22px;
+    font-weight: bold;
+    position: relative;
+  }
+
+  header img {
+    width: 40px;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+  }
+
+  h2 {
+    text-align: center;
+    margin: 20px 0;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  .clinica {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    margin: 15px auto;
+    padding: 15px 20px;
+    width: 85%;
+    max-width: 700px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .nome {
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 20px;
+    white-space: nowrap;
+  }
+
+  .endereco {
+    flex: 1;
+    font-size: 14px;
+    color: #333;
+  }
+
+  a {
+    background-color: #3f20d8;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    transition: 0.3s;
+    white-space: nowrap;
+  }
+
+  a:hover {
+    background-color: #2a0db8;
+  }
