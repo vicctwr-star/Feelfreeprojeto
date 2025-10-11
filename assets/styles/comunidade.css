@@ -1,3 +1,65 @@
 h1 {
-  font-size: 10;
+  font-size: 20px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f0f0;
+}
+
+.caixablabla {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #d1d1d1;
+  border-radius: 30px;
+  padding: 8px 12px;
+  width: 500px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.caixablabla input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  padding: 8px;
+  color: #333;
+}
+
+.icones {
+  display: flex;
+  gap: 10px;
+  margin-left: 8px;
+}
+
+.icone {
+  font-size: 18px;
+  color: #666;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.icone:hover {
+  color: #333;
+}
+
+.caixablabla .icones svg {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: transform 0.2s;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.caixablabla .icones svg:hover {
+  transform: scale(1.2);
 }
