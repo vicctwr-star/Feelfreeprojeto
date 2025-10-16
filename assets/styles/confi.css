@@ -1,0 +1,134 @@
+body {
+  display: grid;
+  grid-template-rows: 100px 1fr;
+  min-height: 100vh;
+  grid-template-areas:
+    "header"
+    "main";
+  height: 100vh;
+  margin: 0;
+  background-color: #fbf7ea;
+}
+
+.flecha {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  margin-left: 10px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+header {
+  grid-area: header;
+  background-color: #538efb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+main {
+  grid-area: main;
+  display: block;
+  width: 100%;
+  max-width: 1330px;
+  margin-top: 80px;
+  margin-left: 0;
+}
+
+.titulo {
+  color: beige;
+  display: flex;
+  justify-content: center;
+  text-shadow: 2px 2px 3px gray;
+}
+
+.imagem {
+  width: 50px;
+  height: auto;
+}
+
+.perfil {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 10px;
+  padding: auto;
+}
+
+.perfil_principal {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.editar-perfil {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  margin-left: -30px;
+  margin-bottom: 40px;
+}
+
+.nome_usuario {
+  display: flex;
+  align-items: center;
+  justify-content: last baseline;
+}
+
+.nome_usuario img {
+  width: 20px;
+  cursor: pointer;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.nome_usuario textarea {
+  border-radius: 100px;
+  height: 25px;
+  width: 250px;
+  display: flex;
+  border: 1px solid #959697;
+  padding-left: 10px;
+  padding-top: 5px;
+  font-size: 15px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.Usuario {
+  background-color: #eeeeee;
+  border: 1px solid #dad9d9;
+  display: flex;
+  align-items: center;
+  height: 110px;
+  width: 100%;
+  padding-left: 30px;
+}
+
+.icono {
+  max-width: 5px;
+  display: flex;
+  gap: 8px;
+  position: relative;
+  top: -45px;
+  left: 30px;
+}
+
+.icono1 {
+  width: 5px;
+}
+
+.nome_usuario button {
+  background-color: #b0bcd4;
+  border-radius: 100px;
+  width: 100px;
+  height: 25px;
+  border: 1px solid #959697;
+  cursor: pointer;
+}
