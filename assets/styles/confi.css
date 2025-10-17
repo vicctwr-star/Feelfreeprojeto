@@ -17,6 +17,8 @@ body {
   margin-left: 10px;
   margin-top: 10px;
   cursor: pointer;
+  width: 10px;
+  height: 10px;
 }
 
 header {
