@@ -1,0 +1,25 @@
+header {
+  width: 100%;
+  background-color: #3978ee;
+  padding: 1rem 0.5rem;
+  display: flex;
+  align-items: center;
+  box-shadow: 1px 1px #00000055;
+
+  .logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: 200;
+  }
+
+  img {
+    width: 40px;
+  }
+  svg {
+    fill: white;
+    width: 20px;
+  }
+}
