@@ -6,30 +6,35 @@ body {
   overflow-y: auto;
 }
 
-header {
-  background-color: #4a90e2;
-  color: white;
-  text-align: center;
-  padding: 15px 0;
-  font-size: 20px;
-  font-weight: bold;
-  position: relative;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-}
-
-header .voltar {
+.flecha {
   position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 22px;
-  color: white;
-  text-decoration: none;
+  top: 10px;
+  left: 10px;
+  margin-left: 10px;
+  margin-top: 10px;
+  cursor: pointer;
 }
 
-header .icone {
-  margin-left: 8px;
-  font-size: 20px;
+header {
+  grid-area: header;
+  background-color: #538efb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.titulo {
+  color: beige;
+  display: flex;
+  justify-content: center;
+  text-shadow: 2px 2px 3px gray;
+}
+
+.imagem {
+  width: 50px;
+  height: auto;
 }
 
 .conteudo {
@@ -41,10 +46,11 @@ header .icone {
   height: auto;
   padding-left: 100px;
   padding-right: 100px;
+  padding-top: 80px;
 }
 
-.conteudo textPrinc {
-  font-size: 24;
+.textPrinc * {
+  font-size: 24px;
 }
 .conteudo h2 {
   font-size: 25px;
