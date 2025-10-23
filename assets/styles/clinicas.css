@@ -6,14 +6,37 @@ body {
   }
 
   header {
-    background-color: #4a90e2;
-    color: white;
-    text-align: center;
-    padding: 15px 0;
-    font-size: 22px;
-    font-weight: bold;
+    grid-area: header;
+    background-color: #538efb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     position: relative;
   }
+
+  .flecha {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    margin-left: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .titulo {
+    color: beige;
+    display: flex;
+    justify-content: center;
+    text-shadow: 2px 2px 3px gray;
+  }
+
+  .imagem {
+    width: 50px;
+    height: auto;
+  }
+  
+  
 
   header img {
     width: 40px;
