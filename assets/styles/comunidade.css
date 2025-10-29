@@ -63,9 +63,14 @@ textarea {
   margin-left: 10px;
 }
 
-.enviar {
+button:has(.enviar) {
   cursor: pointer;
-  max-width: 45px;
+  background: none;
+  border: none;
+
+  img {
+    max-width: 45px;
+  }
 }
 
 .perfil {
@@ -106,12 +111,13 @@ textarea {
 }
 
 .post {
-  width: 1300px;
+  width: 120vh;
   background-color: #fff;
   padding: 12px 15px;
   border-radius: 15px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border: 1px solid #ccc;
+  margin: 10px 0;
 }
 
 .post-header {
@@ -153,9 +159,11 @@ p {
   font-size: 20px;
   margin-left: 10px;
 }
-
+.opciones_div {
+  margin-left: auto;
+  justify-self: flex-end;
+}
 .opciones {
   max-width: 30px;
   cursor: pointer;
-  margin-left: 1100px;
 }

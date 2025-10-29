@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="../assets/styles/comunidade.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Comunidade</title>
+    <script src="/assets/script/comunidade.js" defer></script>
   </head>
   <body>
     <header>
@@ -26,7 +27,7 @@
     </header>
 
     <main>
-      <div class="o">
+      <form class="o">
         <div class="perfil">
           <img
             src="../assets/images/transferir 2 (2).svg"
@@ -35,10 +36,7 @@
           />
         </div>
         <div class="box">
-          <textarea
-            placeholder="Digite aqui para a comunidade..."
-            maxlength="300"
-          ></textarea>
+          <textarea id="w3review" rows="4" placeholder="Postar" cols="50"></textarea>
           <div class="iconos">
             <img
               class="icons"
@@ -58,43 +56,17 @@
           </div>
         </div>
         <div>
-          <img
+          <button type="submit">
+            <img
             src="../assets/images/paper-plane-solid-full 1.svg"
             alt="Enviar"
             class="enviar"
-          />
+            />
+          </button>
         </div>
-      </div>
+      </form>
 
       <div class="publi">
-        <div class="post">
-          <div class="post-header">
-            <img
-              src="../assets/images/transferir 2 (2).svg"
-              alt="Perfil"
-              class="post-perfil"
-            />
-            <div class="post-user">
-              <strong>kenny_297</strong>
-              <span>há 1 min</span>
-            </div>
-            <div class="opciones_div">
-              <img
-                src="../assets/images/ellipsis-vertical-solid-full 1.svg"
-                alt="mas opciones"
-                class="opciones"
-              />
-            </div>
-          </div>
-          <p>hm</p>
-          <div class="post-actions">
-            <img src="../assets/images/Frame (2).svg" alt="like" />
-            <img onclick="/pages/comentarios.html"
-              src="../assets/images/Frame (1).svg"
-              alt="comentario"
-            />
-          </div>
-        </div>
       </div>
     </main>
   </body>
