@@ -10,6 +10,7 @@ body {
 }
 
 .container {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   width: 300px;
@@ -33,7 +34,18 @@ input[type="password"] {
   border-radius: 10px;
 }
 
-input[type="button"], input[type="submit"] {
+.header_conteudo {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.logo {
+  width: 100px;
+}
+
+input[type="button"],
+input[type="submit"] {
   margin-top: 15px;
   padding: 10px;
   font-size: 16px;
@@ -44,6 +56,7 @@ input[type="button"], input[type="submit"] {
   color: rgb(0, 0, 0);
 }
 
-input[type="button"]:hover, input[type="submit"]:hover {
+input[type="button"]:hover,
+input[type="submit"]:hover {
   background-color: #0056b3;
 }
