@@ -9,6 +9,8 @@ server.use(express.json());
 server.use(rotaUsuarios);
 server.use(rotaLogin);
 
+server.use(express.static("public"));
+
 const { rotaPosts } = require("./controllers/post");
 server.use(rotaPosts);
 
@@ -19,8 +21,7 @@ const { rotaClinicas } = require("./controllers/clinica");
 const { autenticar } = require("./authentication");
 server.use(rotaClinicas);
 
-server.get("/", autenticar, (req, res) => {
-  res.send(req.idusario);
-});
+const { rotaPaginas } = require("./controllers/paginas");
+server.use(rotaPaginas);
 
 server.listen(3000, () => console.log("Rodando"));
