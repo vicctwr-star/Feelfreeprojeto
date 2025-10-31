@@ -31,11 +31,14 @@ rotaComentarios.post("/comentario", async (req, res) => {
   res.json({ sucesso: "ok" });
 });
 
-rotaComentarios.delete("/comentarios/:id", async (req, res) => {
+rotaComentarios.delete("/comentarios/:id", autenticar, async (req, res) => {
   await db.comentario.delete({
     where: {
       id: Number(req.params.id),
-      OR: [{ usuarioId: usuarioId }, { post: { usuarioId: usuarioId } }],
+      OR: [
+        { usuarioId: req.idusuario },
+        { post: { usuarioId: req.idusuario } },
+      ],
     },
   });
 

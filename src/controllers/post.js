@@ -11,7 +11,10 @@ rotaPosts.get("/posts", async (req, res) => {
 rotaPosts.post("/posts", async (req, res) => {
   const { usuarioId, curtidas, conteudo, denuncia } = req.body;
 
-  await db.post.create({
+  console.log("criando Post");
+  console.log({ usuarioId, curtidas, conteudo, denuncia });
+
+  const NovoPost = await db.post.create({
     data: {
       curtidas,
       conteudo,
@@ -23,6 +26,8 @@ rotaPosts.post("/posts", async (req, res) => {
       },
     },
   });
+
+  console.log(NovoPost);
   res.json({ sucesso: "ok" });
 });
 
@@ -45,7 +50,7 @@ rotaPosts.put("/posts/:id", async (req, res) => {
   if (req.body.usuarioId) data.usuarioId = req.body.usuarioId;
   if (req.body.horario) data.horario = req.body.horario;
   if (req.body.curtidas) data.curtidas = req.body.curtidas;
-  if (req.body.data) data.data = req.body.data;
+  if (req.body.data) data.data = new Date(req.body.data);
   if (req.body.denuncia) data.denuncia = req.body.denuncia;
 
   await db.post.update({ where: { id: Number(id) }, data });
