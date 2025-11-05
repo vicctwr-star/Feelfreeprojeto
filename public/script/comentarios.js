@@ -24,7 +24,15 @@ const postagem = {
     },
   ],
 };
-document.querySelectorAll(".publi")[0].innerHTML = `
+
+
+(async () => {
+  
+  const searchParams = new URLSearchParams(window.location.origin.split("?")[1]);
+  const resposta = await fetch("/posts/1");
+  const postagem = await resposta.json();
+
+  document.querySelectorAll(".publi")[0].innerHTML = `
 <div class="post">
           <div class="post-header">
             <img
@@ -52,9 +60,9 @@ document.querySelectorAll(".publi")[0].innerHTML = `
         </div>
 `;
 
-document.querySelectorAll(".publi")[1].innerHTML = "";
-postagem.comentarios.forEach((comentario) => {
-  document.querySelectorAll(".publi")[1].innerHTML += `
+  document.querySelectorAll(".publi")[1].innerHTML = "";
+  postagem.comentarios.forEach((comentario) => {
+    document.querySelectorAll(".publi")[1].innerHTML += `
 <div class="post1">
           <div class="post-header">
             <img
@@ -81,4 +89,5 @@ postagem.comentarios.forEach((comentario) => {
           </div>
         </div>
 `;
-});
+  });
+})();

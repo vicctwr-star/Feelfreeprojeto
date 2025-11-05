@@ -1,25 +1,56 @@
-const postagens = [
-  {
-    id: 1,
-    autor: "kenny",
-    imagem: "../assets/images/transferir 2 (2).svg",
-    conteudo: "autistas KKKKK",
-    qntLikes: 0,
-    data: 12,
-  },
-  {
-    id: 2,
-    autor: "kily",
-    imagem: "../assets/images/transferir 2 (2).svg",
-    conteudo: "mentira KKKKK",
-    qntLikes: 0,
-    data: 12,
-  },
-];
+(async () => {
+  const response = await fetch("/posts");
+  const postagens = (await response.json()).map((postagem) => ({
+    id: postagem.id,
+    autor: postagem.usuario.nome,
+    imagem: "/images/transferir 2 (2).svg",
+    conteudo: postagem.conteudo,
+    qntLikes: postagem.curtidas,
+    data: postagem.data,
+  }));
+  console.log(postagens);
 
-document.querySelector(".publi").innerHTML = "";
+  document.querySelector(".publi").innerHTML = "";
 
-function postar(postagem) {
+  postagens.forEach((postagem) => {
+    postar(postagem);
+  });
+
+  document.querySelector("form").addEventListener("submit", (even) => {
+    even.preventDefault();
+    const postagemNova = {
+      autor: localStorage.getItem("nome") || "guest",
+      conteudo: document.querySelector("textarea").value,
+      imagem: "/images/transferir 2 (2).svg",
+      qntLikes: 0,
+      data: 12,
+      id: 3,
+    };
+
+    postagens.push(postagemNova);
+    postar(postagemNova, true);
+  });
+})();
+
+async function postar(postagem, db = false) {
+  if (db) {
+    const response = await fetch("/posts", {
+      method: "POST",
+      body: JSON.stringify({
+        conteudo: postagem.conteudo,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    });
+
+    if (!response.ok) {
+      alert("Deu erro");
+      return;
+    }
+  }
+
   document.querySelector(".publi").innerHTML += `<div class="post">
     <div class="post-header">
       <img
@@ -33,7 +64,7 @@ function postar(postagem) {
       </div>
       <div class="opciones_div">
         <img
-          src="../assets/images/ellipsis-vertical-solid-full 1.svg"
+          src="/images/ellipsis-vertical-solid-full 1.svg"
           alt="mas opciones"
           class="opciones"
         />
@@ -41,40 +72,21 @@ function postar(postagem) {
     </div>
     <p>${postagem.conteudo}</p>
     <div class="post-actions">
-      <img class="like-${postagem.id} vazio" onclick="darLike(${postagem.id})" src="../assets/images/Frame (2).svg" alt="like" />
-      <a href="/pages/comentarios.html">
-        <img src="../assets/images/Frame (1).svg"alt="comentario"/>
+      <img class="like-${postagem.id} vazio" onclick="darLike(${postagem.id})" src="/images/Frame (2).svg" alt="like" />
+      <a href="/comentarioss?id=${postagem.id}">
+        <img src="/images/Frame (1).svg"alt="comentario"/>
       </a>
       </div>
     </div>`;
 }
 
-postagens.forEach((postagem) => {
-  postar(postagem);
-});
-
 function darLike(postagemId) {
   const coracao = document.querySelector(".like-" + postagemId);
   if (coracao.classList.contains("vazio")) {
-    coracao.src = "../assets/images/vermelçho.svg";
+    coracao.src = "/images/vermelçho.svg";
   } else {
-    coracao.src = "../assets/images/Frame (2).svg";
+    coracao.src = "/images/Frame (2).svg";
   }
 
   coracao.classList.toggle("vazio");
 }
-
-document.querySelector("form").addEventListener("submit", (even) => {
-  even.preventDefault();
-  const postagemNova = {
-    autor: "bla",
-    conteudo: document.querySelector("textarea").value,
-    imagem: "../assets/images/transferir 2 (2).svg",
-    qntLikes: 0,
-    data: 12,
-    id: 3,
-  };
-
-  postagens.push(postagemNova);
-  postar(postagemNova);
-});

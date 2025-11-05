@@ -19,6 +19,23 @@ body {
   cursor: pointer;
 }
 
+.perfil_principal {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+textarea {
+  flex: 1;
+  min-width: 700px;
+  min-height: 70px;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  margin-left: 10px;
+}
+
 header {
   grid-area: header;
   background-color: #538efb;
@@ -27,6 +44,47 @@ header {
   align-items: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   position: relative;
+}
+
+.iconos {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  top: -45px;
+  left: 30px;
+}
+
+.icons {
+  max-width: 30px;
+  cursor: pointer;
+}
+
+button:has(.enviar) {
+  cursor: pointer;
+  background: none;
+  border: none;
+
+  img {
+    max-width: 45px;
+  }
+}
+
+.perfil {
+  width: 65px;
+  height: 70px;
+  border-radius: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  margin: 10px;
+  padding: auto;
+}
+
+.o {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 900px;
+  margin: 5px;
 }
 
 main {

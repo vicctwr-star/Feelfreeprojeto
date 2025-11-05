@@ -4,24 +4,28 @@ const { autenticar } = require("../authentication");
 const rotaPosts = Router();
 
 rotaPosts.get("/posts", async (req, res) => {
-  const post = await db.post.findMany();
+  const post = await db.post.findMany({
+    include: {
+      usuario: true,
+    },
+  });
   res.json(post);
 });
 
-rotaPosts.post("/posts", async (req, res) => {
-  const { usuarioId, curtidas, conteudo, denuncia } = req.body;
+rotaPosts.post("/posts", autenticar, async (req, res) => {
+  const { conteudo } = req.body;
 
   console.log("criando Post");
-  console.log({ usuarioId, curtidas, conteudo, denuncia });
+  console.log({ id: req.idusuario, conteudo });
 
   const NovoPost = await db.post.create({
     data: {
-      curtidas,
+      curtidas: 0,
       conteudo,
-      denuncia,
+      denuncia: 0,
       usuario: {
         connect: {
-          id: usuarioId,
+          id: req.idusuario,
         },
       },
     },
@@ -61,9 +65,17 @@ rotaPosts.get("/posts/:id", async (req, res) => {
   const post = await db.post.findUnique({
     where: { id: Number(req.params.id) },
     include: {
-      comentarios: true,
+      comentarios: {
+        include: {
+          usuario: true,
+        },
+      },
+      usuario: true,
     },
   });
+
+  console.log(post);
+
   res.json(post);
 });
 

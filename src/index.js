@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const { rotaUsuarios } = require("./controllers/usuario");
 const { rotaLogin } = require("./controllers/login");
+const { db } = require("./db.js");
+
 const server = express();
 
 server.use(cors());
@@ -24,4 +26,13 @@ server.use(rotaClinicas);
 const { rotaPaginas } = require("./controllers/paginas");
 server.use(rotaPaginas);
 
+server.get("/deletarTudo", async (req, res) => {
+  await db.post.deleteMany({
+    where: {
+      usuarioId: 6,
+    },
+  });
+
+  res.send("Tudo deletado!");
+});
 server.listen(3000, () => console.log("Rodando"));

@@ -45,6 +45,10 @@ input[type="password"] {
   width: 100px;
 }
 
+a {
+  width: 100%;
+}
+
 input[type="button"],
 input[type="submit"] {
   margin-top: 15px;
@@ -55,6 +59,7 @@ input[type="submit"] {
   border-radius: 10px;
   background-color: #7591cf;
   color: rgb(0, 0, 0);
+  width: 100%;
 }
 
 input[type="button"]:hover,

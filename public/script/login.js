@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const json = await resposta.json();
     console.log(json);
     sessionStorage.setItem("token", json.token);
+    localStorage.setItem("nome", json.nome);
     window.location.assign("/");
   }
 });
