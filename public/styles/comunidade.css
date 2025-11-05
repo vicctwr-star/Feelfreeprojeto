@@ -167,3 +167,34 @@ p {
   max-width: 30px;
   cursor: pointer;
 }
+
+.mas_opciones {
+  background-color: black;
+  width: 150px;
+  height: 70px;
+  border-radius: 20px;
+  border: 1px solid #999;
+  box-shadow: 4px 4px 7px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 5px;
+  display: flex;
+  justify-self: flex-end;
+  margin: auto;
+}
+
+.button_opciones {
+  background-color: black;
+  width: 100%;
+  height: auto;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.button_opciones:hover {
+  background-color: #474646;
+}

@@ -50,6 +50,9 @@ const postagem = {
                 alt="mas opciones"
                 class="opciones"
               />
+              <div class="mas_opciones">
+                <button class="button_opciones"><img src="../assets/imagens/delete_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Eliminar">Deletar</button>
+            </div>
             </div>
           </div>
           <p>${postagem.conteudo}</p>
@@ -80,6 +83,9 @@ const postagem = {
                 alt="mas opciones"
                 class="opciones"
               />
+              <div class="mas_opciones">
+                <button class="button_opciones"><img src="../assets/imagens/delete_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Eliminar">Deletar</button>
+            </div>
             </div>
           </div>
           <p>${comentario.conteudo}</p>
