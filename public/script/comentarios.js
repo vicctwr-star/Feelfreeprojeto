@@ -85,7 +85,6 @@ const postagem = {
           <p>${comentario.conteudo}</p>
           <div class="post-actions">
             <img src="../assets/images/Frame (2).svg" alt="like" />
-            <img src="../assets/images/Frame (1).svg" alt="comentario" />
           </div>
         </div>
 `;
