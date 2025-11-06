@@ -1,7 +1,7 @@
 const postagem = {
   id: 1,
   autor: "kenny",
-  imagem: "../assets/images/transferir 2 (2).svg",
+  imagem: "/images/transferir 2 (2).svg",
   conteudo: "autistas KKKKK",
   qntLikes: 0,
   data: 12,
@@ -9,7 +9,7 @@ const postagem = {
     {
       id: 44,
       autor: "vi",
-      imagem: "../assets/images/transferir 2 (2).svg",
+      imagem: "/images/transferir 2 (2).svg",
       conteudo: "autistas KKKKlllK",
       qntLikes: 0,
       data: 12,
@@ -17,7 +17,7 @@ const postagem = {
     {
       id: 44,
       autor: "vi",
-      imagem: "../assets/images/transferir 2 (2).svg",
+      imagem: "/images/transferir 2 (2).svg",
       conteudo: "autistas KKKKlllK",
       qntLikes: 0,
       data: 12,
@@ -33,35 +33,29 @@ const postagem = {
   const postagem = await resposta.json();
 
   document.querySelectorAll(".publi")[0].innerHTML = `
-<div class="post">
-          <div class="post-header">
-            <img
-              src="${postagem.imagem}"
-              alt="Perfil"
-              class="post-perfil"
-            />
-            <div class="post-user">
-              <strong>${postagem.autor}</strong>
-              <span>há 1 min</span>
+    <div class="post">
+              <div class="post-header">
+                <img
+                  src="${postagem.imagem}"
+                  alt="Perfil"
+                  class="post-perfil"
+                />
+                <div class="post-user">
+                  <strong>${postagem.autor}</strong>
+                  <span>há 1 min</span>
+                </div>
+                  <div class="opciones_div">
+                  <div class="opciones_div">
+                  <img src="/images/lixeira.svg.svg" alt="mas opciones" class="opciones"/>
+                </div>
+              </div>
+              <p>${postagem.conteudo}</p>
+              <div class="post-actions">
+                <img src="/images/Frame (2).svg" alt="like" />
+                <img src="/images/Frame (1).svg" alt="comentario" />
+              </div>
             </div>
-            <div class="opciones_div">
-              <img
-                src="../assets/images/ellipsis-vertical-solid-full 1.svg"
-                alt="mas opciones"
-                class="opciones"
-              />
-              <div class="mas_opciones">
-                <button class="button_opciones"><img src="../assets/imagens/delete_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Eliminar">Deletar</button>
-            </div>
-            </div>
-          </div>
-          <p>${postagem.conteudo}</p>
-          <div class="post-actions">
-            <img src="../assets/images/Frame (2).svg" alt="like" />
-            <img src="../assets/images/Frame (1).svg" alt="comentario" />
-          </div>
-        </div>
-`;
+    `;
 
   document.querySelectorAll(".publi")[1].innerHTML = "";
   postagem.comentarios.forEach((comentario) => {
@@ -79,18 +73,19 @@ const postagem = {
             </div>
             <div class="opciones_div">
               <img
-                src="../assets/images/ellipsis-vertical-solid-full 1.svg"
+                src="/images/ellipsis-vertical-solid-full 1.svg"
                 alt="mas opciones"
                 class="opciones"
               />
               <div class="mas_opciones">
-                <button class="button_opciones"><img src="../assets/imagens/delete_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Eliminar">Deletar</button>
+                <button class="button_opciones"><img src="/imagens/delete_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24.svg" alt="Eliminar">Deletar</button>
             </div>
             </div>
           </div>
           <p>${comentario.conteudo}</p>
           <div class="post-actions">
             <img src="../assets/images/Frame (2).svg" alt="like" />
+            <img src="../assets/images/Frame (1).svg" alt="comentario" />
           </div>
         </div>
 `;

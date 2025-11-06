@@ -2,15 +2,15 @@ const { Router } = require("express");
 const rotaPaginas = Router();
 
 rotaPaginas.get("/", async (req, res) => {
-  res.sendFile(__dirname + "/pages/telaInicial.html");
-});
-
-rotaPaginas.get("/login", async (req, res) => {
+  // res.sendFile(__dirname + "/pages/telaInicial.html");
   res.sendFile(__dirname + "/pages/login.html");
 });
 
 rotaPaginas.get("/cadastro", async (req, res) => {
   res.sendFile(__dirname + "/pages/cadastro.html");
+});
+rotaPaginas.get("/telaInicial", async (req, res) => {
+  res.sendFile(__dirname + "/pages/telaInicial.html");
 });
 
 rotaPaginas.get("/clinicas", async (req, res) => {
