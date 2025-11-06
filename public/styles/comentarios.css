@@ -208,3 +208,26 @@ p {
 .button_opciones:hover {
   background-color: #474646;
 }
+
+textarea {
+  flex: 1;
+  min-width: 700px;
+  min-height: 70px;
+  border-radius: 20px;
+  padding: 10px 15px;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  margin-left: 10px;
+}
+
+.o {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 900px;
+}
+
+.enviar {
+  width: 60px;
+  cursor: pointer;
+}
