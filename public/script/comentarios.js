@@ -25,10 +25,10 @@ const postagem = {
   ],
 };
 
-
 (async () => {
-  
-  const searchParams = new URLSearchParams(window.location.origin.split("?")[1]);
+  const searchParams = new URLSearchParams(
+    window.location.origin.split("?")[1]
+  );
   const resposta = await fetch("/posts/1");
   const postagem = await resposta.json();
 
@@ -91,7 +91,6 @@ const postagem = {
           <p>${comentario.conteudo}</p>
           <div class="post-actions">
             <img src="../assets/images/Frame (2).svg" alt="like" />
-            <img src="../assets/images/Frame (1).svg" alt="comentario" />
           </div>
         </div>
 `;
