@@ -7,27 +7,26 @@
     conteudo: postagem.conteudo,
     qntLikes: postagem.curtidas,
     data: postagem.data,
+    usuarioId: postagem.usuarioId, 
   }));
+
   console.log(postagens);
 
   document.querySelector(".publi").innerHTML = "";
+  postagens.forEach((postagem) => postar(postagem));
 
-  postagens.forEach((postagem) => {
-    postar(postagem);
-  });
-
-  document.querySelector("form").addEventListener("submit", (even) => {
-    even.preventDefault();
+  document.querySelector("form").addEventListener("submit", (event) => {
+    event.preventDefault();
     const postagemNova = {
       autor: localStorage.getItem("nome") || "guest",
       conteudo: document.querySelector("textarea").value,
       imagem: "/images/transferir 2 (2).svg",
       qntLikes: 0,
-      data: 12,
-      id: 3,
+      data: new Date().toISOString(),
+      id: Math.random(), 
+      usuarioId: localStorage.getItem("idUsuario"), 
     };
 
-    postagens.push(postagemNova);
     postar(postagemNova, true);
   });
 })();
@@ -46,43 +45,79 @@ async function postar(postagem, db = false) {
     });
 
     if (!response.ok) {
-      alert("Deu erro");
+      alert("Deu erro ao postar.");
       return;
     }
   }
 
-  document.querySelector(".publi").innerHTML += `<div class="post">
-    <div class="post-header">
-      <img
-        src="${postagem.imagem}"
-        alt="Perfil"
-        class="post-perfil"
-      />
-      <div class="post-user">
-        <strong>${postagem.autor}</strong>
-        <span>há 1 min</span>
+  const idUsuarioLogado = localStorage.getItem("idUsuario");
+
+  document.querySelector(".publi").innerHTML += `
+    <div class="post">
+      <div class="post-header">
+        <img src="${postagem.imagem}" alt="Perfil" class="post-perfil" />
+        <div class="post-user">
+          <strong>${postagem.autor}</strong>
+          <span>há 1 min</span>
+        </div>
+        <div class="opciones_div">
+          ${
+            postagem.usuarioId == idUsuarioLogado
+              ? `<img 
+                  src="/images/lixeira.svg.svg" 
+                  alt="excluir" 
+                  class="opciones"
+                  onclick="excluirPost(${postagem.id})"
+                />`
+              : ""
+          }
+        </div>
       </div>
-      <div class="opciones_div">
-        <img src="/images/lixeira.svg.svg" alt="mas opciones" class="opciones"/>
-      </div>
-    </div>
-    <p>${postagem.conteudo}</p>
-    <div class="post-actions">
-      <img class="like-${postagem.id} vazio" onclick="darLike(${postagem.id})" src="/images/Frame (2).svg" alt="like" />
-      <a href="/comentarioss?id=${postagem.id}">
-        <img src="/images/Frame (1).svg"alt="comentario"/>
-      </a>
+      <p>${postagem.conteudo}</p>
+      <div class="post-actions">
+        <img 
+          class="like-${postagem.id} vazio" 
+          onclick="darLike(${postagem.id})" 
+          src="/images/Frame (2).svg" 
+          alt="like" 
+        />
+        <a href="/comentarioss?id=${postagem.id}">
+          <img src="/images/Frame (1).svg" alt="comentario" />
+        </a>
       </div>
     </div>`;
 }
 
 function darLike(postagemId) {
   const coracao = document.querySelector(".like-" + postagemId);
-  if (coracao.classList.contains("vazio")) {
-    coracao.src = "/images/vermelçho.svg";
-  } else {
-    coracao.src = "/images/Frame (2).svg";
-  }
-
   coracao.classList.toggle("vazio");
+  coracao.src = coracao.classList.contains("vazio")
+    ? "/images/Frame (2).svg"
+    : "/images/vermelçho.svg";
+}
+
+async function excluirPost(id) {
+  if (!confirm("Tem certeza que deseja excluir este post?")) return;
+
+  try {
+    const resposta = await fetch(`/posts/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const resultado = await resposta.json();
+
+    if (resposta.ok) {
+      alert("Post excluído com sucesso!");
+      const post = document.querySelector(`.like-${id}`).closest(".post");
+      if (post) post.remove();
+    } else {
+      alert(resultado.erro || "Erro ao excluir o post.");
+    }
+  } catch (erro) {
+    console.error("Erro ao tentar excluir post:", erro);
+    alert("Erro ao conectar com o servidor.");
+  }
 }
