@@ -7,7 +7,7 @@
     conteudo: postagem.conteudo,
     qntLikes: postagem.curtidas,
     data: postagem.data,
-    usuarioId: postagem.usuarioId, 
+    usuarioId: postagem.usuarioId,
   }));
 
   console.log(postagens);
@@ -23,8 +23,7 @@
       imagem: "/images/transferir 2 (2).svg",
       qntLikes: 0,
       data: new Date().toISOString(),
-      id: Math.random(), 
-      usuarioId: localStorage.getItem("idUsuario"), 
+      usuarioId: localStorage.getItem("idUsuario"),
     };
 
     postar(postagemNova, true);
@@ -33,7 +32,7 @@
 
 async function postar(postagem, db = false) {
   if (db) {
-    const response = await fetch("/posts", {
+    const response1 = await fetch("/posts", {
       method: "POST",
       body: JSON.stringify({
         conteudo: postagem.conteudo,
@@ -44,10 +43,26 @@ async function postar(postagem, db = false) {
       },
     });
 
-    if (!response.ok) {
+    if (!response1.ok) {
       alert("Deu erro ao postar.");
       return;
     }
+
+    const response = await fetch("/posts");
+    const postagens = (await response.json()).map((postagem) => ({
+      id: postagem.id,
+      autor: postagem.usuario.nome,
+      imagem: "/images/transferir 2 (2).svg",
+      conteudo: postagem.conteudo,
+      qntLikes: postagem.curtidas,
+      data: postagem.data,
+      usuarioId: postagem.usuarioId,
+    }));
+
+    console.log(postagens);
+
+    document.querySelector(".publi").innerHTML = "";
+    postagens.forEach((postagem) => postar(postagem));
   }
 
   const idUsuarioLogado = localStorage.getItem("idUsuario");
@@ -99,11 +114,12 @@ function darLike(postagemId) {
 async function excluirPost(id) {
   if (!confirm("Tem certeza que deseja excluir este post?")) return;
 
+  console.log(id);
   try {
     const resposta = await fetch(`/posts/${id}`, {
       method: "DELETE",
       headers: {
-        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
     });
 

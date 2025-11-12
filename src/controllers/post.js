@@ -19,35 +19,32 @@ rotaPosts.get("/posts", async (req, res) => {
   }
 });
 
-rotaComentarios.post("/comentario", autenticar, async (req, res) => {
-  const { postId, conteudo } = req.body;
+rotaPosts.post("/posts", autenticar, async (req, res) => {
+  const { conteudo } = req.body;
 
-  if (!postId || !conteudo) {
-    return res
-      .status(400)
-      .json({ erro: "postId e conteudo são obrigatórios." });
-  }
+  console.log("criando Post");
+  console.log({ id: req.idusuario, conteudo });
 
-  try {
-    const novoComentario = await db.comentario.create({
-      data: {
-        conteudo,
-        curtidas: 0,
-        usuario: { connect: { id: req.idusuario } },
-        post: { connect: { id: postId } },
+  const NovoPost = await db.post.create({
+    data: {
+      curtidas: 0,
+      conteudo,
+      denuncia: 0,
+      usuario: {
+        connect: {
+          id: req.idusuario,
+        },
       },
-    });
+    },
+  });
 
-    res.json(novoComentario);
-  } catch (erro) {
-    console.error("Erro ao criar comentário:", erro);
-    res.status(500).json({ erro: "Erro ao criar comentário." });
-  }
+  console.log(NovoPost);
+  res.json({ sucesso: "ok" });
 });
 
-rotaPosts.delete("/posts/:id", async (req, res) => {
+rotaPosts.delete("/posts/:id", autenticar, async (req, res) => {
+  console.log(req.params.id);
   const idPost = Number(req.params.id);
-  const { idUsuario } = req.body;
 
   try {
     const post = await db.post.findUnique({
@@ -55,7 +52,9 @@ rotaPosts.delete("/posts/:id", async (req, res) => {
     });
 
     if (!post) return res.status(404).json({ erro: "Post não encontrado" });
-    if (post.usuarioId !== Number(idUsuario))
+    console.log(post);
+    console.log(req.idusuario);
+    if (post.usuarioId !== Number(req.idusuario))
       return res.status(403).json({ erro: "Você não pode excluir este post" });
 
     await db.post.delete({ where: { id: idPost } });

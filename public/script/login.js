@@ -24,10 +24,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // 🔥 salva tudo
       sessionStorage.setItem("token", json.token);
       localStorage.setItem("nome", json.nome);
-      localStorage.setItem("idUsuario", json.id); // 👈 importante!
+      localStorage.setItem("idUsuario", json.id);
 
       window.location.assign("/telaInicial");
     } catch (erro) {

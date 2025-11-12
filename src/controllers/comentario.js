@@ -18,7 +18,7 @@ rotaComentarios.post("/comentario", async (req, res) => {
       curtidas,
       usuario: {
         connect: {
-          id: usuarioId,
+          id: Number(usuarioId),
         },
       },
       post: {

@@ -24,6 +24,7 @@ rotaLogin.post("/api/login", async (req, res) => {
   res.json({
     token,
     nome: usuario.nome,
+    id: usuario.id,
   });
 });
 

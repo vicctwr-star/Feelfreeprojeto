@@ -18,13 +18,17 @@
           <span>há 1 min</span>
         </div>
         <div class="opciones_div">
-          <img src="/images/lixeira.svg" alt="opções" class="opciones"/>
+        <img 
+        src="/images/lixeira.svg.svg" 
+        alt="excluir" 
+        class="opciones"
+        onclick="excluirPost(${postagem.id})"
+      />
         </div>
       </div>
       <p>${postagem.conteudo}</p>
       <div class="post-actions">
         <img src="/images/Frame (2).svg" alt="like" />
-        <img src="/images/Frame (1).svg" alt="comentario" />
       </div>
     </div>
   `;
@@ -46,11 +50,12 @@
             <span>há 1 min</span>
           </div>
           <div class="opciones_div">
-            <img
-              src="/images/ellipsis-vertical-solid-full 1.svg"
-              alt="opções"
-              class="opciones"
-            />
+          <img 
+          src="/images/lixeira.svg.svg" 
+          alt="excluir" 
+          class="opciones"
+          onclick="excluirPost(${postagem.id})"
+        />
           </div>
         </div>
         <p>${comentario.conteudo}</p>
@@ -59,9 +64,11 @@
   });
 
   comentariosDiv.innerHTML += `
-    <div class="criar-comentario">
-      <input type="text" id="novoComentario" placeholder="Escreva um comentário..." />
-      <button id="btnComentar">Comentar</button>
+    <div class="o box criar-comentario">
+      <textarea id="novoComentario" rows="4" placeholder="Digite aqui para responder..." cols="50"></textarea>
+      <button id="btnComentar">
+      <img src="/images/paper-plane-solid-full 1.svg" alt="Enviar" class="enviar"/>
+      </button>
     </div>
   `;
 

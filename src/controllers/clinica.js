@@ -2,7 +2,7 @@ const { Router } = require("express");
 const { db } = require("../db");
 const rotaClinicas = Router();
 
-rotaClinicas.get("/clinicas", async (req, res) => {
+rotaClinicas.get("/api/clinicas", async (req, res) => {
   const clinicas = await db.clinicas.findMany();
   res.json(clinicas);
 });

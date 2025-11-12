@@ -33,7 +33,7 @@ rotaPaginas.get("/confi", async (req, res) => {
   res.sendFile(__dirname + "/pages/confi.html");
 });
 
-rotaPaginas.get("/configurações", async (req, res) => {
+rotaPaginas.get("/configuracoes", async (req, res) => {
   res.sendFile(__dirname + "/pages/configurações.html");
 });
 
