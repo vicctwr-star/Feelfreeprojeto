@@ -123,4 +123,28 @@ rotaPosts.get("/posts/:id", async (req, res) => {
   }
 });
 
+rotaPosts.put("/posts/:id/like", autenticar, async (req, res) => {
+  const { id } = req.params;
+  const { acao } = req.body;
+
+  try {
+    const post = await db.post.findUnique({ where: { id: Number(id) } });
+
+    if (!post) return res.status(404).json({ erro: "Post não encontrado." });
+
+    const novoValor =
+      acao === "curtir" ? post.curtidas + 1 : Math.max(post.curtidas - 1, 0);
+
+    const postAtualizado = await db.post.update({
+      where: { id: Number(id) },
+      data: { curtidas: novoValor },
+    });
+
+    res.json(postAtualizado);
+  } catch (erro) {
+    console.error(erro);
+    res.status(500).json({ erro: "Erro ao atualizar curtidas." });
+  }
+});
+
 module.exports = { rotaPosts };

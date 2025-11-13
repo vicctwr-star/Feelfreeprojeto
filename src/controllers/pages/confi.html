@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="/styles/confi.css" />
     <link rel="stylesheet" href="/styles/global.css" />
+    <script src="/script/confi.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Configurações</title>
   </head>
   <body>
     <header>
       <div class="flecha">
-        <a href=/configurações">
+        <a href="/configuracoes">
           <img src="/images/Vector.svg" alt="voltar" />
         </a>
       </div>
@@ -27,7 +28,7 @@
         <div class="perfil">
           <img
             src="/images/transferir 2 (2).svg"
-            alt="Mi foto de perfil"
+            alt="Minha foto de perfil"
             class="perfil_principal"
           />
         </div>
@@ -38,14 +39,12 @@
         />
 
         <div class="nome_usuario">
-          <textarea placeholder="Digite seu novo nome..."></textarea>
-          <img
-            src="/images/pen-to-square-solid-full 3.svg"
-            alt="editar nombre"
-            class="editar-nome"
-          />
-          <a href=/configurações">
-            <button>Feito</button>
+          <textarea
+            id="novoNome"
+            placeholder="Digite seu novo nome..."
+          ></textarea>
+          <a href="/configuracoes">
+            <button id="btnSalvar">Feito</button>
           </a>
         </div>
       </div>

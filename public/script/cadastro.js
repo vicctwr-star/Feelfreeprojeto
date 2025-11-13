@@ -31,6 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const json = await resposta.json();
     console.log(json);
-    window.location.assign("/login");
+    window.location.assign("/");
   }
 });

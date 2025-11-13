@@ -1,108 +1,126 @@
 (async () => {
-  const searchParams = new URLSearchParams(window.location.search);
-  const postId = searchParams.get("id");
+  const urlParams = new URLSearchParams(window.location.search);
+  const postId = urlParams.get("id");
 
-  const resposta = await fetch(`/posts/${postId}`);
-  const postagem = await resposta.json();
+  if (!postId) {
+    alert("Nenhum post selecionado para comentar!");
+    return;
+  }
 
-  document.querySelectorAll(".publi")[0].innerHTML = `
-    <div class="post">
-      <div class="post-header">
-        <img
-          src="${postagem.imagem || "/images/transferir 2 (2).svg"}"
-          alt="Perfil"
-          class="post-perfil"
-        />
-        <div class="post-user">
-          <strong>${postagem.autor}</strong>
-          <span>há 1 min</span>
-        </div>
-        <div class="opciones_div">
-        <img 
-        src="/images/lixeira.svg.svg" 
-        alt="excluir" 
-        class="opciones"
-        onclick="excluirPost(${postagem.id})"
-      />
-        </div>
-      </div>
-      <p>${postagem.conteudo}</p>
-      <div class="post-actions">
-        <img src="/images/Frame (2).svg" alt="like" />
-      </div>
-    </div>
-  `;
+  const response = await fetch(`/comentarios/${postId}`);
+  const comentarios = (await response.json()).map((comentario) => ({
+    id: comentario.id,
+    autor: comentario.usuario.nome,
+    conteudo: comentario.conteudo,
+    usuarioId: comentario.usuarioId,
+  }));
 
-  const comentariosDiv = document.querySelectorAll(".publi")[1];
-  comentariosDiv.innerHTML = "";
+  console.log(comentarios);
 
-  postagem.comentarios?.forEach((comentario) => {
-    comentariosDiv.innerHTML += `
-      <div class="post1">
-        <div class="post-header">
-          <img
-            src="${comentario.imagem || "/images/transferir 2 (2).svg"}"
-            alt="Perfil"
-            class="post-perfil"
-          />
-          <div class="post-user">
-            <strong>${comentario.usuario?.nome || "Anônimo"}</strong>
-            <span>há 1 min</span>
-          </div>
-          <div class="opciones_div">
-          <img 
-          src="/images/lixeira.svg.svg" 
-          alt="excluir" 
-          class="opciones"
-          onclick="excluirPost(${postagem.id})"
-        />
-          </div>
-        </div>
-        <p>${comentario.conteudo}</p>
-      </div>
-    `;
-  });
+  document.querySelector(".comentarios").innerHTML = "";
+  comentarios.forEach((comentario) => mostrarComentario(comentario));
 
-  comentariosDiv.innerHTML += `
-    <div class="o box criar-comentario">
-      <textarea id="novoComentario" rows="4" placeholder="Digite aqui para responder..." cols="50"></textarea>
-      <button id="btnComentar">
-      <img src="/images/paper-plane-solid-full 1.svg" alt="Enviar" class="enviar"/>
-      </button>
-    </div>
-  `;
-
-  document.querySelector("#btnComentar").addEventListener("click", async () => {
-    const conteudo = document.querySelector("#novoComentario").value.trim();
-    const usuarioId = localStorage.getItem("idUsuario");
+  document.querySelector("form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const conteudo = document.querySelector("textarea").value.trim();
 
     if (!conteudo) {
-      alert("Digite algo antes de comentar!");
+      alert("O comentário não pode estar vazio!");
       return;
     }
 
-    try {
-      const resposta = await fetch("/comentario", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          conteudo,
-          usuarioId,
-          postId: postagem.id,
-          curtidas: 0,
-        }),
-      });
+    const comentarioNovo = {
+      autor: localStorage.getItem("nome") || "guest",
+      conteudo,
+      usuarioId: localStorage.getItem("idUsuario"),
+      postId,
+    };
 
-      if (resposta.ok) {
-        document.querySelector("#novoComentario").value = "";
-        location.reload();
-      } else {
-        const erro = await resposta.json();
-        alert(erro.erro || "Erro ao enviar comentário");
-      }
-    } catch (e) {
-      console.error("Erro ao comentar:", e);
-      alert("Erro ao conectar com o servidor.");
-    }
+    enviarComentario(comentarioNovo);
   });
 })();
+
+async function enviarComentario(comentario) {
+  try {
+    const resposta = await fetch(`/comentarios`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        conteudo: comentario.conteudo,
+        postId: comentario.postId,
+      }),
+    });
+
+    if (!resposta.ok) {
+      alert("Erro ao postar comentário.");
+      return;
+    }
+
+    const novoComentario = await resposta.json();
+    mostrarComentario({
+      id: novoComentario.id,
+      autor: localStorage.getItem("nome"),
+      conteudo: novoComentario.conteudo,
+      usuarioId: localStorage.getItem("idUsuario"),
+    });
+
+    document.querySelector("textarea").value = "";
+  } catch (erro) {
+    console.error("Erro ao enviar comentário:", erro);
+    alert("Erro ao conectar com o servidor.");
+  }
+}
+
+function mostrarComentario(comentario) {
+  const idUsuarioLogado = localStorage.getItem("idUsuario");
+
+  document.querySelector(".comentarios").innerHTML += `
+    <div class="comentario">
+      <div class="comentario-header">
+        <strong>${comentario.autor}</strong>
+      </div>
+      <p>${comentario.conteudo}</p>
+      ${
+        comentario.usuarioId == idUsuarioLogado
+          ? `<img 
+              src="/images/lixeira.svg.svg" 
+              alt="excluir" 
+              class="lixeira"
+              onclick="excluirComentario(${comentario.id})"
+            />`
+          : ""
+      }
+    </div>
+  `;
+}
+
+async function excluirComentario(id) {
+  if (!confirm("Tem certeza que deseja excluir este comentário?")) return;
+
+  try {
+    const resposta = await fetch(`/comentarios/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    });
+
+    const resultado = await resposta.json();
+
+    if (resposta.ok) {
+      alert("Comentário excluído com sucesso!");
+      const comentario = document
+        .querySelector(`img[onclick="excluirComentario(${id})"]`)
+        ?.closest(".comentario");
+      if (comentario) comentario.remove();
+    } else {
+      alert(resultado.erro || "Erro ao excluir o comentário.");
+    }
+  } catch (erro) {
+    console.error("Erro ao tentar excluir comentário:", erro);
+    alert("Erro ao conectar com o servidor.");
+  }
+}

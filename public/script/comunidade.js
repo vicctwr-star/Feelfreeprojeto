@@ -59,56 +59,98 @@ async function postar(postagem, db = false) {
       usuarioId: postagem.usuarioId,
     }));
 
-    console.log(postagens);
+    console.log(postagens[0].id);
 
     document.querySelector(".publi").innerHTML = "";
     postagens.forEach((postagem) => postar(postagem));
   }
 
   const idUsuarioLogado = localStorage.getItem("idUsuario");
-
-  document.querySelector(".publi").innerHTML += `
-    <div class="post">
-      <div class="post-header">
-        <img src="${postagem.imagem}" alt="Perfil" class="post-perfil" />
-        <div class="post-user">
-          <strong>${postagem.autor}</strong>
-          <span>há 1 min</span>
+  if (postagem.id) {
+    document.querySelector(".publi").innerHTML += `
+      <div class="post">
+        <div class="post-header">
+          <img src="${postagem.imagem}" alt="Perfil" class="post-perfil" />
+          <div class="post-user">
+            <strong>${postagem.autor}</strong>
+            <span>há 1 min</span>
+          </div>
+          <div class="opciones_div">
+            ${
+              postagem.usuarioId == idUsuarioLogado
+                ? `<img 
+                    src="/images/lixeira.svg.svg" 
+                    alt="excluir" 
+                    class="opciones"
+                    onclick="excluirPost(${postagem.id})"
+                  />`
+                : ""
+            }
+          </div>
         </div>
-        <div class="opciones_div">
-          ${
-            postagem.usuarioId == idUsuarioLogado
-              ? `<img 
-                  src="/images/lixeira.svg.svg" 
-                  alt="excluir" 
-                  class="opciones"
-                  onclick="excluirPost(${postagem.id})"
-                />`
-              : ""
-          }
+        <p>${postagem.conteudo}</p>
+        <div class="post-actions">
+          <div class="like-area">
+            <img 
+              class="like-${postagem.id} ${
+      postagem.qntLikes > 0 ? "vermelho" : "vazio"
+    }" 
+              onclick="darLike(${postagem.id})" 
+              src="${
+                postagem.qntLikes > 0
+                  ? "/images/vermelçho.svg"
+                  : "/images/Frame (2).svg"
+              }" 
+              alt="like"
+            />
+            <span class="likes-count-${postagem.id}">${postagem.qntLikes}</span>
+          </div>
+          <a href="/comentarioss?id=${postagem.id}">
+            <img src="/images/Frame (1).svg" alt="comentario" />
+          </a>
         </div>
       </div>
-      <p>${postagem.conteudo}</p>
-      <div class="post-actions">
-        <img 
-          class="like-${postagem.id} vazio" 
-          onclick="darLike(${postagem.id})" 
-          src="/images/Frame (2).svg" 
-          alt="like" 
-        />
-        <a href="/comentarioss?id=${postagem.id}">
-          <img src="/images/Frame (1).svg" alt="comentario" />
-        </a>
-      </div>
-    </div>`;
+    `;
+  }
 }
 
-function darLike(postagemId) {
-  const coracao = document.querySelector(".like-" + postagemId);
-  coracao.classList.toggle("vazio");
-  coracao.src = coracao.classList.contains("vazio")
-    ? "/images/Frame (2).svg"
-    : "/images/vermelçho.svg";
+async function darLike(postagemId) {
+  const coracao = document.querySelector(`.like-${postagemId}`);
+  const contador = document.querySelector(`.likes-count-${postagemId}`);
+  const estaVazio = coracao.classList.contains("vazio");
+
+  const acao = estaVazio ? "curtir" : "descurtir";
+
+  try {
+    const resposta = await fetch(`/posts/${postagemId}/like`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+      body: JSON.stringify({ acao }),
+    });
+
+    const postAtualizado = await resposta.json();
+
+    if (resposta.ok) {
+      if (acao === "curtir") {
+        coracao.src = "/images/vermelçho.svg";
+        coracao.classList.remove("vazio");
+        coracao.classList.add("vermelho");
+      } else {
+        coracao.src = "/images/Frame (2).svg";
+        coracao.classList.remove("vermelho");
+        coracao.classList.add("vazio");
+      }
+
+      contador.textContent = postAtualizado.curtidas;
+    } else {
+      console.error(postAtualizado.erro || "Erro ao curtir o post");
+    }
+  } catch (erro) {
+    console.error("Erro ao curtir:", erro);
+  }
 }
 
 async function excluirPost(id) {
