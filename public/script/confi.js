@@ -8,27 +8,21 @@ document.querySelector("#btnSalvar").addEventListener("click", async () => {
 
   const idUsuario = localStorage.getItem("idUsuario");
 
-  try {
-    const resposta = await fetch(`/usuarios/${idUsuario}/nome`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
-      },
-      body: JSON.stringify({ nome: novoNome }),
-    });
+  const resposta = await fetch(`/usuarios/${idUsuario}/nome`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ nome: novoNome }),
+  });
 
-    if (resposta.ok) {
-      const dados = await resposta.json();
-      localStorage.setItem("nome", dados.nome);
-      alert("Nome alterado com sucesso!");
-      window.location.href = "/perfil.html";
-    } else {
-      const erro = await resposta.json();
-      alert(erro.erro || "Erro ao alterar nome.");
-    }
-  } catch (erro) {
-    console.error(erro);
-    alert("Erro ao conectar com o servidor.");
+  if (resposta.ok) {
+    const dados = await resposta.json();
+    localStorage.setItem("nome", dados.nome);
+    alert("Nome alterado com sucesso!");
+    window.location.href = "/perfil";
+  } else {
+    const erro = await resposta.json();
+    alert(erro.erro || "Erro ao alterar nome.");
   }
 });

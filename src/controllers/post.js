@@ -109,6 +109,7 @@ rotaPosts.get("/posts/:id", async (req, res) => {
       qntLikes: post.curtidas,
       comentarios: post.comentarios.map((c) => ({
         id: c.id,
+        usuarioId: c.usuarioId,
         autor: c.usuario.nome,
         imagem: "/images/transferir 2 (2).svg",
         conteudo: c.conteudo,

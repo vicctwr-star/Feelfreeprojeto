@@ -1,4 +1,4 @@
-(async () => {
+async function inicio() {
   const urlParams = new URLSearchParams(window.location.search);
   const postId = urlParams.get("id");
 
@@ -7,17 +7,43 @@
     return;
   }
 
-  const response = await fetch(`/comentarios/${postId}`);
-  const comentarios = (await response.json()).map((comentario) => ({
+  const response = await fetch(`/posts/${postId}`);
+  const postagem = await response.json();
+  const comentarios = postagem.comentarios.map((comentario) => ({
     id: comentario.id,
-    autor: comentario.usuario.nome,
+    autor: comentario.autor,
     conteudo: comentario.conteudo,
     usuarioId: comentario.usuarioId,
   }));
 
+  document.querySelector(".post").innerHTML = `
+  <div class="post-header">
+    <img
+      src="images/transferir 2 (2).svg"
+      alt="Perfil"
+      class="post-perfil"
+    />
+    <div class="post-user">
+      <strong>${postagem.autor}</strong>
+      <span>há 1 min</span>
+    </div>
+    <div class="opciones_div">
+      <img
+        src="/images/lixeira.svg.svg"
+        alt="excluir"
+        class="opciones"
+      />
+    </div>
+  </div>
+  <p>${postagem.conteudo}</p>
+  <div class="post-actions">
+    <img src="images/Frame (2).svg" alt="like" />
+  </div>
+  `;
+
   console.log(comentarios);
 
-  document.querySelector(".comentarios").innerHTML = "";
+  document.querySelector(".post1").innerHTML = "";
   comentarios.forEach((comentario) => mostrarComentario(comentario));
 
   document.querySelector("form").addEventListener("submit", (event) => {
@@ -38,18 +64,27 @@
 
     enviarComentario(comentarioNovo);
   });
-})();
+}
+inicio();
 
 async function enviarComentario(comentario) {
   try {
-    const resposta = await fetch(`/comentarios`, {
+    console.log({
+      autor: localStorage.getItem("nome"),
+      conteudo: comentario.conteudo,
+      usuarioId: localStorage.getItem("idUsuario"),
+      postId: comentario.postId,
+    });
+    const resposta = await fetch(`/comentario`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
       body: JSON.stringify({
+        autor: localStorage.getItem("nome"),
         conteudo: comentario.conteudo,
+        usuarioId: localStorage.getItem("idUsuario"),
         postId: comentario.postId,
       }),
     });
@@ -63,11 +98,12 @@ async function enviarComentario(comentario) {
     mostrarComentario({
       id: novoComentario.id,
       autor: localStorage.getItem("nome"),
-      conteudo: novoComentario.conteudo,
+      conteudo: comentario.conteudo,
       usuarioId: localStorage.getItem("idUsuario"),
     });
 
     document.querySelector("textarea").value = "";
+    inicio();
   } catch (erro) {
     console.error("Erro ao enviar comentário:", erro);
     alert("Erro ao conectar com o servidor.");
@@ -77,24 +113,37 @@ async function enviarComentario(comentario) {
 function mostrarComentario(comentario) {
   const idUsuarioLogado = localStorage.getItem("idUsuario");
 
-  document.querySelector(".comentarios").innerHTML += `
-    <div class="comentario">
-      <div class="comentario-header">
-        <strong>${comentario.autor}</strong>
+  document.querySelector(".post1").innerHTML += `
+  <div class="post-header">
+            <img
+              src="images/transferir 2 (2).svg"
+              alt="Perfil"
+              class="post-perfil"
+            />
+            <div class="post-user">
+              <strong>${comentario.autor}</strong>
+              <span>há 1 min</span>
+            </div>
+            <div class="opciones_div">
+            ${
+              comentario.usuarioId == idUsuarioLogado
+                ? `<img 
+                    src="/images/lixeira.svg.svg" 
+                    alt="excluir" 
+                    class="lixeira"
+                    onclick="excluirComentario(${comentario.id})"
+                  />`
+                : ""
+            }
+            </div>
+          </div>
+          <p>${comentario.conteudo}</p>
+          <div class="post-actions">
+            <img src="images/Frame (2).svg" alt="like" />
+          </div>  
+        
       </div>
-      <p>${comentario.conteudo}</p>
-      ${
-        comentario.usuarioId == idUsuarioLogado
-          ? `<img 
-              src="/images/lixeira.svg.svg" 
-              alt="excluir" 
-              class="lixeira"
-              onclick="excluirComentario(${comentario.id})"
-            />`
-          : ""
-      }
-    </div>
-  `;
+    `;
 }
 
 async function excluirComentario(id) {

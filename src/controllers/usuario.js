@@ -6,6 +6,19 @@ const { db } = require("../db.js");
 
 const rotaUsuarios = Router();
 
+rotaUsuarios.get("/usuarios/:id", async (req, res) => {
+  const usuarios = await db.usuario.findUnique({
+    where: {
+      id: Number(req.params.id),
+    },
+    include: {
+      posts: true,
+      comentarios: true,
+    },
+  });
+  res.json(usuarios);
+});
+
 rotaUsuarios.get("/usuarios", autenticar, async (req, res) => {
   const usuarios = await db.usuario.findMany({
     include: {

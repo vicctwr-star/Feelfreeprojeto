@@ -11,11 +11,11 @@ rotaComentarios.get("/comentarios", async (req, res) => {
 
 rotaComentarios.post("/comentario", async (req, res) => {
   const { usuarioId, postId, conteudo, curtidas } = req.body;
-
+  console.log(conteudo);
   await db.comentario.create({
     data: {
       conteudo,
-      curtidas,
+      curtidas: 0,
       usuario: {
         connect: {
           id: Number(usuarioId),
@@ -23,7 +23,7 @@ rotaComentarios.post("/comentario", async (req, res) => {
       },
       post: {
         connect: {
-          id: postId,
+          id: Number(postId),
         },
       },
     },
