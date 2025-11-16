@@ -19,7 +19,7 @@ async function inicio() {
   document.querySelector(".post").innerHTML = `
   <div class="post-header">
     <img
-      src="images/transferir 2 (2).svg"
+      src="/images/fotosemperfil.svg"
       alt="Perfil"
       class="post-perfil"
     />
@@ -116,8 +116,8 @@ function mostrarComentario(comentario) {
   document.querySelector(".post1").innerHTML += `
   <div class="post-header">
             <img
-              src="images/transferir 2 (2).svg"
-              alt="Perfil"
+              src="/images/fotosemperfil.svg"
+              alt="Perfil"j
               class="post-perfil"
             />
             <div class="post-user">

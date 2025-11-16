@@ -3,7 +3,7 @@
   const postagens = (await response.json()).map((postagem) => ({
     id: postagem.id,
     autor: postagem.usuario.nome,
-    imagem: "/images/transferir 2 (2).svg",
+    imagem: "/images/fotosemperfil.svg",
     conteudo: postagem.conteudo,
     qntLikes: postagem.curtidas,
     data: postagem.data,
