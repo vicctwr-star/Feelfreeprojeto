@@ -1,91 +1,51 @@
-async function inicio() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const postId = urlParams.get("id");
+const token = sessionStorage.getItem("token");
+if (!token) {
+  window.location.href = "/login.html";
+}
 
-  if (!postId) {
-    alert("Nenhum post selecionado para comentar!");
+const urlParams = new URLSearchParams(window.location.search);
+const postId = urlParams.get("id");
+const nomeUsuario = localStorage.getItem("nome");
+const formulario = document.querySelector("form");
+const elementoPostagem = document.querySelector(".post");
+const elementoComentarios = document.querySelector(".post1");
+const idUsuario = localStorage.getItem("idUsuario");
+const inputComentario = document.querySelector("textarea");
+
+let listaDeComentarios = [];
+
+formulario.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const conteudo = inputComentario.value.trim();
+
+  if (!conteudo) {
+    alert("O comentário não pode estar vazio!");
     return;
   }
 
-  const response = await fetch(`/posts/${postId}`);
-  const postagem = await response.json();
-  const comentarios = postagem.comentarios.map((comentario) => ({
-    id: comentario.id,
-    autor: comentario.autor,
-    conteudo: comentario.conteudo,
-    usuarioId: comentario.usuarioId,
-  }));
+  const comentarioNovo = {
+    autor: nomeUsuario || "guest",
+    conteudo,
+    usuarioId: idUsuario,
+    ehMeuComentario: true,
+    postId,
+  };
 
-  document.querySelector(".post").innerHTML = `
-  <div class="post-header">
-    <img
-      src="/images/fotosemperfil.svg"
-      alt="Perfil"
-      class="post-perfil"
-    />
-    <div class="post-user">
-      <strong>${postagem.autor}</strong>
-      <span>há 1 min</span>
-    </div>
-    <div class="opciones_div">
-      <img
-        src="/images/lixeira.svg.svg"
-        alt="excluir"
-        class="opciones"
-      />
-    </div>
-  </div>
-  <p>${postagem.conteudo}</p>
-  <div class="post-actions">
-    <img src="images/Frame (2).svg" alt="like" />
-  </div>
-  `;
-
-  console.log(comentarios);
-
-  document.querySelector(".post1").innerHTML = "";
-  comentarios.forEach((comentario) => mostrarComentario(comentario));
-
-  document.querySelector("form").addEventListener("submit", (event) => {
-    event.preventDefault();
-    const conteudo = document.querySelector("textarea").value.trim();
-
-    if (!conteudo) {
-      alert("O comentário não pode estar vazio!");
-      return;
-    }
-
-    const comentarioNovo = {
-      autor: localStorage.getItem("nome") || "guest",
-      conteudo,
-      usuarioId: localStorage.getItem("idUsuario"),
-      postId,
-    };
-
-    enviarComentario(comentarioNovo);
-  });
-}
-inicio();
-
-async function enviarComentario(comentario) {
   try {
-    console.log({
-      autor: localStorage.getItem("nome"),
-      conteudo: comentario.conteudo,
-      usuarioId: localStorage.getItem("idUsuario"),
-      postId: comentario.postId,
-    });
+    console.log(comentarioNovo);
+
     const resposta = await fetch(`/comentario`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + sessionStorage.getItem("token"),
+        Authorization: "Bearer " + token,
       },
+
       body: JSON.stringify({
-        autor: localStorage.getItem("nome"),
-        conteudo: comentario.conteudo,
-        usuarioId: localStorage.getItem("idUsuario"),
-        postId: comentario.postId,
+        usuarioId: comentarioNovo.usuarioId,
+        postId: comentarioNovo.postId,
+        conteudo: comentarioNovo.conteudo,
+        curtidas: 0,
       }),
     });
 
@@ -94,27 +54,88 @@ async function enviarComentario(comentario) {
       return;
     }
 
-    const novoComentario = await resposta.json();
-    mostrarComentario({
-      id: novoComentario.id,
-      autor: localStorage.getItem("nome"),
-      conteudo: comentario.conteudo,
-      usuarioId: localStorage.getItem("idUsuario"),
-    });
-
+    carregarComentarios();
     document.querySelector("textarea").value = "";
-    inicio();
   } catch (erro) {
     console.error("Erro ao enviar comentário:", erro);
     alert("Erro ao conectar com o servidor.");
   }
-}
+});
 
-function mostrarComentario(comentario) {
-  const idUsuarioLogado = localStorage.getItem("idUsuario");
+(async () => {
+  elementoPostagem.innerHTML = "";
 
-  document.querySelector(".post1").innerHTML += `
-  <div class="post-header">
+  try {
+    const response = await fetch(`/posts/${postId}`);
+    const postagem = await response.json();
+    listaDeComentarios = postagem.comentarios.map((comentario) => ({
+      id: comentario.id,
+      autor: comentario.autor,
+      conteudo: comentario.conteudo,
+      usuarioId: comentario.usuarioId,
+      ehMeuComentario: comentario.usuarioId == idUsuario,
+    }));
+
+    console.log("Postagem e comentários carregados com sucesso.");
+    elementoPostagem.innerHTML = `
+      <div class="post-header">
+      <img
+        src="/images/fotosemperfil.svg"
+        alt="Perfil"
+        class="post-perfil"
+      />
+      <div class="post-user">
+        <strong>${postagem.autor}</strong>
+        <span>há 1 min</span>
+      </div>
+      <div class="opciones_div">
+        <img
+          src="/images/lixeira.svg.svg"
+          alt="excluir"
+          class="opciones"
+        />
+      </div>
+    </div>
+    <p>${postagem.conteudo}</p>
+    <div class="post-actions">
+      <img src="images/Frame (2).svg" alt="like" />
+    </div>
+    `;
+
+    carregarComentarios();
+  } catch (error) {
+    console.error("Erro ao buscar postagem:", error);
+  }
+})();
+
+async function carregarComentarios() {
+  elementoComentarios.innerHTML = "";
+
+  try {
+    const resposta = await fetch(`/posts/${postId}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    });
+
+    if (!resposta.ok) {
+      alert("Erro ao carregar comentários.");
+      return;
+    }
+
+    listaDeComentarios = (await resposta.json()).comentarios.map(
+      (comentario) => ({
+        id: comentario.id,
+        autor: comentario.autor,
+        conteudo: comentario.conteudo,
+        usuarioId: comentario.usuarioId,
+        ehMeuComentario: comentario.usuarioId == idUsuario,
+      })
+    );
+
+    listaDeComentarios.forEach((comentario) => {
+      elementoComentarios.innerHTML += `
+        <div class="post-header">
             <img
               src="/images/fotosemperfil.svg"
               alt="Perfil"j
@@ -126,7 +147,7 @@ function mostrarComentario(comentario) {
             </div>
             <div class="opciones_div">
             ${
-              comentario.usuarioId == idUsuarioLogado
+              comentario.ehMeuComentario
                 ? `<img 
                     src="/images/lixeira.svg.svg" 
                     alt="excluir" 
@@ -144,6 +165,11 @@ function mostrarComentario(comentario) {
         
       </div>
     `;
+    });
+  } catch (erro) {
+    console.error("Erro ao carregar comentários:", erro);
+    alert("Erro ao conectar com o servidor.");
+  }
 }
 
 async function excluirComentario(id) {
@@ -165,6 +191,8 @@ async function excluirComentario(id) {
         .querySelector(`img[onclick="excluirComentario(${id})"]`)
         ?.closest(".comentario");
       if (comentario) comentario.remove();
+
+      carregarComentarios();
     } else {
       alert(resultado.erro || "Erro ao excluir o comentário.");
     }
