@@ -7,27 +7,37 @@ rotaClinicas.get("/api/clinicas", async (req, res) => {
   res.json(clinicas);
 });
 
-rotaClinicas.post("/clinica", async (req, res) => {
+rotaClinicas.get("/api/clinicas/:id", async (req, res) => {
+  const id = Number(req.params.id);
+  const clinica = await db.clinicas.findUnique({
+    where: { id },
+  });
+
+  if (!clinica) {
+    return res.status(404).json({ erro: "Clínica não encontrada." });
+  }
+
+  res.json(clinica);
+});
+
+rotaClinicas.post("/api/clinicas", async (req, res) => {
   const { nome, endereco, cep } = req.body;
 
   await db.clinicas.create({
-    data: {
-      nome,
-      endereco,
-      cep,
-    },
+    data: { nome, endereco, cep },
   });
+
   res.json({ sucesso: "ok" });
 });
 
-rotaClinicas.delete("/clinicas/:id", async (req, res) => {
+rotaClinicas.delete("/api/clinicas/:id", async (req, res) => {
   await db.clinicas.delete({
     where: { id: Number(req.params.id) },
   });
   res.json({ sucesso: "ok" });
 });
 
-rotaClinicas.put("/clinicas/:id", async (req, res) => {
+rotaClinicas.put("/api/clinicas/:id", async (req, res) => {
   const id = Number(req.params.id);
   const data = {};
 
