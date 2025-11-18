@@ -20,7 +20,7 @@ document.querySelector("#btnSalvar").addEventListener("click", async () => {
     const dados = await resposta.json();
     localStorage.setItem("nome", dados.nome);
     alert("Nome alterado com sucesso!");
-    window.location.href = "/perfil";
+    window.location.href = "/configuracoes";
   } else {
     const erro = await resposta.json();
     alert(erro.erro || "Erro ao alterar nome.");
